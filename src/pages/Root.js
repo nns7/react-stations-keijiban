@@ -1,25 +1,18 @@
 import * as React from 'react';
 import {Link} from "react-router-dom";
+import {getThreads} from "../api";
 
 const RootPage = () => {
   const [threadsList, setThreadsList] = React.useState(null);
 
-  async function fetchThreadsList() {
-    const response = await fetch(
-      'http://railway-react-bulletin-board.herokuapp.com/threads'
-    );
-    const data = await response.json();
-    return data;
-  }
-
   React.useEffect(() => {
-    fetchThreadsList().then((data) => {
+    getThreads().then((data) => {
       setThreadsList(data);
     });
   }, [])
 
   function reloadThreads() {
-    fetchThreadsList().then((data) => {
+    getThreads().then((data) => {
       setThreadsList(data);
     });
   }
