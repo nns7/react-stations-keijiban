@@ -8,3 +8,8 @@ export async function getThreads(arg = {}) {
     const params = new URLSearchParams(arg);
     return request(`/threads?${params.toString()}`);
 }
+
+export async function getThreadPosts(threadId ,arg = {}) {
+    const params = new URLSearchParams(arg);
+    return request(`/threads/${threadId}/posts?${params.toString()}`);
+}

@@ -28,7 +28,11 @@ const RootPage = () => {
         ) : (
           threadsList.map((threadItem) => {
             return (
-              <li>{threadItem.title}</li>
+            <li>
+                <Link to={`/thread/${threadItem.id}`} state={{title: threadItem.title, id: threadItem.id}}>
+                    {threadItem.title}
+                </Link>
+            </li>
             );
           })
         )}
