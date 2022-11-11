@@ -19,8 +19,6 @@ const RootPage = () => {
 
   return (
     <>
-      <p>掲示板</p>
-      <p><Link to={`/thread/new`}>スレッドを立てる</Link></p>
       <p>新着スレッド</p>
       <ul>
         {threadsList == null ? (
