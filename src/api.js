@@ -1,4 +1,4 @@
-async function request(path, options = {}) {
+async function getRequest(path, options = {}) {
     const url = `http://railway-react-bulletin-board.herokuapp.com${path}`;
     const response = await fetch(url, options);
     return response.json();
@@ -12,7 +12,7 @@ async function postRequest(path, options = {}) {
 
 export async function getThreads(arg = {}) {
     const params = new URLSearchParams(arg);
-    return request(`/threads?${params.toString()}`);
+    return getRequest(`/threads?${params.toString()}`);
 }
 
 export async function postThreads(title) {
@@ -21,12 +21,12 @@ export async function postThreads(title) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"title": title})
     };
-    return request(`/threads`, requestOptions);
+    return postRequest(`/threads`, requestOptions);
 }
 
 export async function getThreadPosts(threadId ,arg = {}) {
     const params = new URLSearchParams(arg);
-    return request(`/threads/${threadId}/posts?${params.toString()}`);
+    return getRequest(`/threads/${threadId}/posts?${params.toString()}`);
 }
 
 export async function postThreadPosts(threadId, post) {
