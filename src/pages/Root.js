@@ -5,7 +5,7 @@ import { Box, Typography, List, ListItem, ListItemText, Button } from "@mui/mate
 
 const RootPage = () => {
   const [threadsList, setThreadsList] = React.useState(null);
-  const skeletons = [...Array(10)].map(() => <ListItem button divider><ListItemText primary="　" /></ListItem>)
+  const skeletons = [...Array(10)].map((value, index) => <ListItem key={index} button divider><ListItemText primary="　" /></ListItem>)
 
   React.useEffect(() => {
     getThreads().then((data) => {
@@ -30,7 +30,7 @@ const RootPage = () => {
         ) : (
           threadsList.map((threadItem) => {
             return (
-              <ListItem button divider component={Link} to={`/thread/${threadItem.id}`} state={{title: threadItem.title, id: threadItem.id}}>
+              <ListItem key={threadItem.id} button divider component={Link} to={`/thread/${threadItem.id}`} state={{title: threadItem.title, id: threadItem.id}}>
                   <ListItemText primary={threadItem.title} />
               </ListItem>
             );

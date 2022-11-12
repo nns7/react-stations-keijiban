@@ -52,7 +52,7 @@ const ThreadDetail = () => {
                 ) : (
                     postsList.map((post) => {
                         return (
-                            <ListItem divider>
+                            <ListItem key={post.id} divider>
                                 <ListItemText primary={post.post} />
                             </ListItem>
                         );
