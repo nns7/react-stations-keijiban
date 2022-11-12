@@ -5,16 +5,27 @@ import { Box, Typography, List, ListItem, ListItemText, Button } from "@mui/mate
 
 const RootPage = () => {
   const [threadsList, setThreadsList] = React.useState(null);
+  const [offset, setOffset] = React.useState(0);
   const skeletons = [...Array(10)].map((value, index) => <ListItem key={index} button divider><ListItemText primary="　" /></ListItem>)
 
   React.useEffect(() => {
-    getThreads().then((data) => {
+    getThreads({offset: offset}).then((data) => {
       setThreadsList(data);
     });
-  }, [])
+  }, [offset])
+
+  function handleBack() {
+    setOffset(offset - 10);
+    reloadThreads();
+  }
+
+  function handleNext() {
+    setOffset(offset + 10);
+    reloadThreads();
+  }
 
   function reloadThreads() {
-    getThreads().then((data) => {
+    getThreads({offset: offset}).then((data) => {
       setThreadsList(data);
     });
   }
@@ -37,7 +48,20 @@ const RootPage = () => {
           })
         )}
       </List>
-      <Button fullWidth variant="contained" sx={{mt: 3, mb: 2}} onClick={reloadThreads}>更新</Button>
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+        <Button
+          disabled={offset === 0}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          ＜前の10件
+        </Button>
+        <Box sx={{ flex: '1 1 auto' }} />
+        <Button onClick={handleNext}>
+          次の10件＞
+        </Button>
+      </Box>
+      {/* <Button fullWidth variant="contained" sx={{mt: 3, mb: 2}} onClick={reloadThreads}>更新</Button> */}
     </Box>
   )
 }

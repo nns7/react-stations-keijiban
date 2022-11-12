@@ -7,23 +7,34 @@ import { Box, Typography, List, ListItem, ListItemText, Button, TextField, Link 
 const ThreadDetail = () => {
     const [postsList, setPostsList] = React.useState(null);
     const [post, setPost] = React.useState("");
+    const [offset, setOffset] = React.useState(0);
 
     const location = useLocation();
     const threadTitle = location.state.title;
     const threadId = location.state.id;
     
     React.useEffect(() => {
-        getThreadPosts(threadId).then((data) => {
+        getThreadPosts(threadId, {offset: offset}).then((data) => {
           setPostsList(data.posts);
         });
-      }, [threadId])
+      }, [threadId, offset])
 
     function handleChange(event) {
         setPost(event.target.value);
     }
 
+    function handleBack() {
+        setOffset(offset - 10);
+        reloadThreadPosts();
+      }
+    
+      function handleNext() {
+        setOffset(offset + 10);
+        reloadThreadPosts();
+      }
+
     function reloadThreadPosts() {
-        getThreadPosts(threadId).then((data) => {
+        getThreadPosts(threadId, {offset: offset}).then((data) => {
             setPostsList(data.posts);
         });
     }
@@ -59,6 +70,19 @@ const ThreadDetail = () => {
                     })
                 )}
             </List>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                <Button
+                disabled={offset === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+                >
+                    ＜前の10件
+                </Button>
+                <Box sx={{ flex: '1 1 auto' }} />
+                <Button onClick={handleNext}>
+                    次の10件＞
+                </Button>
+            </Box>
             <TextField id="post" label="投稿しよう！" variant="outlined" value={post} onChange={(e) => handleChange(e)} />
             <Button fullWidth variant="contained" sx={{mt: 3, mb: 2}} onClick={handleClick}>投稿</Button>
             <MUILink component={Link} to={`/`}>Topに戻る</MUILink>
